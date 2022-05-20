@@ -23,6 +23,7 @@ class MyComponents {
   }) {
     ScrollController _scrollController = ScrollController();
     Widget returnWidget = SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       scrollDirection: Axis.vertical,
       child: Column(
@@ -68,7 +69,7 @@ class MyComponents {
         onPointerSignal: (pointerSignal) {
           if (pointerSignal is PointerScrollEvent) {
             _scrollController.animateTo(
-              _scrollController.offset + pointerSignal.scrollDelta.dy * 1.1,
+              _scrollController.offset + pointerSignal.scrollDelta.dy * 5,
               duration: const Duration(
                   milliseconds:
                       100), //다음 스크롤까지 딜레이를 주는 개념으로 볼 수 있다, 부드러운 느낌을 줄 수 있음
@@ -107,7 +108,7 @@ class MyComponents {
         onPointerSignal: (pointerSignal) {
           if (pointerSignal is PointerScrollEvent) {
             _scrollController.animateTo(
-              _scrollController.offset + pointerSignal.scrollDelta.dy * 1.1,
+              _scrollController.offset + pointerSignal.scrollDelta.dy * 1.2,
               duration: const Duration(
                   milliseconds:
                       100), //다음 스크롤까지 딜레이를 주는 개념으로 볼 수 있다, 부드러운 느낌을 줄 수 있음

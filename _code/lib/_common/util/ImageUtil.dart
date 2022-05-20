@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:unsplash_client/unsplash_client.dart';
@@ -9,22 +10,36 @@ import 'package:unsplash_client/unsplash_client.dart';
 // import 'package:image_picker/image_picker.dart';
 
 class ImageUtil {
-  static ListQueue<Photo> photoQueue = ListQueue();
+  static void _shuffle(List elements, [int start = 0, int? end, Random? random]) {
+    random ??= Random();
+    end ??= elements.length;
+    var length = end - start;
+    while (length > 1) {
+      var pos = random.nextInt(length);
+      length--;
+      var tmp1 = elements[start + pos];
+      elements[start + pos] = elements[start + length];
+      elements[start + length] = tmp1;
+    }
+  }
+
+  static List<Photo> photoList = [];
 
   static Future<Photo> getRandomImage() async {
-    final client = UnsplashClient(
-      settings: const ClientSettings(
-          credentials: AppCredentials(
-        accessKey: 'KTg3ugCcSjMTt9v-JTlCWy4Ut9b6k76z8LC_lwTVIoY',
-        secretKey: 'z_DHJAdy86GCAJMEu2G-eoBttgJid4cCjhegpchdz8M',
-      )),
-    );
-
-    if (photoQueue.isEmpty) {
-      photoQueue.addAll(await client.photos.random(count: 10).goAndGet());
+    if (photoList.isEmpty) {
+      final client = UnsplashClient(
+        settings: const ClientSettings(
+            credentials: AppCredentials(
+              accessKey: 'KTg3ugCcSjMTt9v-JTlCWy4Ut9b6k76z8LC_lwTVIoY',
+              secretKey: 'z_DHJAdy86GCAJMEu2G-eoBttgJid4cCjhegpchdz8M',
+            )),
+      );
+      photoList.addAll(await client.photos.random(count: 30).goAndGet());
     }
 
-    return photoQueue.removeFirst();
+    photoList.shuffle();
+
+    return photoList[0];
   }
 
   // static Future<List<XFile>> chooseMultipleImage({

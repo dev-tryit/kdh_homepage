@@ -42,6 +42,8 @@ dependencies:
     unsplash_client: ^2.1.0+1
     transparent_image: ^2.0.0
     shared_preferences: ^2.0.6
+    beautiful_soup_dart: ^0.2.0
+    web_scraper: ^0.1.4
     #another_transformer_page_view 
     #cube_transition 
 
