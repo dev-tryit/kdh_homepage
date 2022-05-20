@@ -47,7 +47,7 @@ class _MainPageState extends KDHState<MainPage> with TickerProviderStateMixin {
   }
 
   @override
-  List<WidgetToGetSize> makeWidgetListToGetSize() {
+  Future<List<WidgetToGetSize>> makeWidgetListToGetSize() async {
     return [
       WidgetToGetSize(
         W.maxContainer,

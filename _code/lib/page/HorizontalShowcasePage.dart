@@ -29,6 +29,7 @@ class HorizontalShowcasePage extends StatefulWidget {
 }
 
 class _HorizontalShowcasePageState extends KDHState<HorizontalShowcasePage> {
+  List<Photo> photoList = [];
   late Size maxSize;
   double maxMobileSize = 1024;
   ScrollController scrollController = ScrollController();
@@ -42,7 +43,8 @@ class _HorizontalShowcasePageState extends KDHState<HorizontalShowcasePage> {
   }
 
   @override
-  List<WidgetToGetSize> makeWidgetListToGetSize() {
+  Future<List<WidgetToGetSize>> makeWidgetListToGetSize() async {
+    photoList = await ImageUtil.getRandomImageList();
     return [
       WidgetToGetSize(
         W.maxContainer,
@@ -87,7 +89,7 @@ class _HorizontalShowcasePageState extends KDHState<HorizontalShowcasePage> {
           child: MyComponents.horizontalListView(
               useWheelScrool: true,
               children:
-                  List.generate(7, (index) => EachWorkCard("파섹홈페이지 $index"))),
+                  List.generate(7, (index) => EachWorkCard("파섹홈페이지 $index", (photoList..shuffle())[0]))),
         ),
       ),
     ];
@@ -149,15 +151,15 @@ class _HorizontalShowcasePageState extends KDHState<HorizontalShowcasePage> {
 }
 
 class EachWorkCard extends StatefulWidget {
+  Photo photo;
   String title;
-  EachWorkCard(this.title, {Key? key}) : super(key: key);
+  EachWorkCard(this.title, this.photo, {Key? key}) : super(key: key);
 
   @override
   _EachWorkCardState createState() => _EachWorkCardState();
 }
 
 class _EachWorkCardState extends KDHState<EachWorkCard> {
-  late Photo photo;
   double opacity = 0;
 
   @override
@@ -171,19 +173,18 @@ class _EachWorkCardState extends KDHState<EachWorkCard> {
   }
 
   @override
-  List<WidgetToGetSize> makeWidgetListToGetSize() {
+  Future<List<WidgetToGetSize>> makeWidgetListToGetSize() async {
     return [];
   }
 
   @override
   Future<void> onLoad() async {
-    photo = await ImageUtil.getRandomImage();
   }
 
   @override
   void mustRebuild() {
-    var photoUrl = photo.urls.regular.toString();
-    bool isPortrait = photo.ratio > 1;
+    var photoUrl = widget.photo.urls.regular.toString();
+    bool isPortrait = widget.photo.ratio > 1;
 
     widgetToBuild = () {
       Widget returnWidget = Column(

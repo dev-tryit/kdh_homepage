@@ -23,23 +23,15 @@ class ImageUtil {
     }
   }
 
-  static List<Photo> photoList = [];
-
-  static Future<Photo> getRandomImage() async {
-    if (photoList.isEmpty) {
-      final client = UnsplashClient(
-        settings: const ClientSettings(
-            credentials: AppCredentials(
-              accessKey: 'KTg3ugCcSjMTt9v-JTlCWy4Ut9b6k76z8LC_lwTVIoY',
-              secretKey: 'z_DHJAdy86GCAJMEu2G-eoBttgJid4cCjhegpchdz8M',
-            )),
-      );
-      photoList.addAll(await client.photos.random(count: 30).goAndGet());
-    }
-
-    photoList.shuffle();
-
-    return photoList[0];
+  static Future<List<Photo>> getRandomImageList() async {
+    final client = UnsplashClient(
+      settings: const ClientSettings(
+          credentials: AppCredentials(
+            accessKey: 'KTg3ugCcSjMTt9v-JTlCWy4Ut9b6k76z8LC_lwTVIoY',
+            secretKey: 'z_DHJAdy86GCAJMEu2G-eoBttgJid4cCjhegpchdz8M',
+          )),
+    );
+    return await client.photos.random(count: 30).goAndGet();
   }
 
   // static Future<List<XFile>> chooseMultipleImage({

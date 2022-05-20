@@ -7,6 +7,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 class MyComponents {
   MyComponents._();
 
+  static double horizontalScrollSensitive = 1.6;
+  static const ScrollPhysics scrollPhysics = BouncingScrollPhysics();
+
   static DateTime? _lastClickDateTime;
 
   static Widget scaffold({required Widget body}) {
@@ -49,6 +52,7 @@ class MyComponents {
   }) {
     ScrollController _scrollController = ScrollController();
     Widget returnWidget = SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -69,7 +73,7 @@ class MyComponents {
         onPointerSignal: (pointerSignal) {
           if (pointerSignal is PointerScrollEvent) {
             _scrollController.animateTo(
-              _scrollController.offset + pointerSignal.scrollDelta.dy * 5,
+              _scrollController.offset + pointerSignal.scrollDelta.dy * horizontalScrollSensitive,
               duration: const Duration(
                   milliseconds:
                       100), //다음 스크롤까지 딜레이를 주는 개념으로 볼 수 있다, 부드러운 느낌을 줄 수 있음
@@ -91,6 +95,7 @@ class MyComponents {
   }) {
     ScrollController _scrollController = ScrollController();
     Widget returnWidget = ListView(
+      physics: const BouncingScrollPhysics(),
       controller: _scrollController,
       scrollDirection: Axis.horizontal,
       children: children,
@@ -108,7 +113,7 @@ class MyComponents {
         onPointerSignal: (pointerSignal) {
           if (pointerSignal is PointerScrollEvent) {
             _scrollController.animateTo(
-              _scrollController.offset + pointerSignal.scrollDelta.dy * 1.2,
+              _scrollController.offset + pointerSignal.scrollDelta.dy * horizontalScrollSensitive,
               duration: const Duration(
                   milliseconds:
                       100), //다음 스크롤까지 딜레이를 주는 개념으로 볼 수 있다, 부드러운 느낌을 줄 수 있음

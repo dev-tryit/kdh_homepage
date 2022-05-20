@@ -29,8 +29,6 @@ abstract class KDHState<T extends StatefulWidget> extends State<T> {
   void initState() {
     // LogUtil.debug("super.initState");
     super.initState();
-
-    _widgetListToGetSize = makeWidgetListToGetSize();
   }
 
   /*
@@ -38,7 +36,7 @@ abstract class KDHState<T extends StatefulWidget> extends State<T> {
     WidgetToGetSize("maxContainer", maxContainerToGetSize)
   ];
   */
-  List<WidgetToGetSize> makeWidgetListToGetSize();
+  Future<List<WidgetToGetSize>> makeWidgetListToGetSize();
 
   Widget loadingWidget() {
     return MyComponents.loadingWidget();
@@ -89,6 +87,8 @@ abstract class KDHState<T extends StatefulWidget> extends State<T> {
 
   Future<void> prepareRebuild() async {
     // LogUtil.debug("super.prepareRebuild");
+
+    _widgetListToGetSize = await makeWidgetListToGetSize();
 
     getSizeOfWidgetList();
 
